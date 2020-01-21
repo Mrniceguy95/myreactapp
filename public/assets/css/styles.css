@@ -1725,22 +1725,6 @@ body {
     box-shadow: 7px 7px 7px #dbdbdb, 
                 -7px -7px 7px #ffffff;
 }
-
-.app-search a {
-    margin-bottom: 10px;
-    font-size: 1em;
-    font-family: Lato;
-    padding: 1px 6px;
-    width: 125px;
-    letter-spacing: -0.03em;
-    color: black;
-    background: white;
-    border-radius: 20px;
-    background: linear-gradient(145deg, #ffffff, #e6e6e6);
-    box-shadow: 7px 7px 7px #dbdbdb, 
-                -7px -7px 7px #ffffff;
-}
-
 .fa-calendar {
     margin: 0 5px;
 }
@@ -2757,9 +2741,9 @@ textarea.input {
     padding: 10px 5px;
     text-align: center;
   }
-  .modal > .actions {
+  .modal .actions {
     width: 100%;
-    padding: 10px 5px;
+    padding: 5px;
     margin: auto;
     display: flex;
     display: -webkit-flex;
@@ -2809,6 +2793,21 @@ textarea.input {
 
   .modal input {
       border: 1px solid black;
-      max-width: 100px;
+      padding: 2px 5px;
       margin: 20px 0 0 0;
+      border-radius: 5px;
+  }
+
+  .modal .content {
+    min-height: 100px;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .modal .center-content {
+      display: flex;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      align-items: center;
+      justify-content: center;
   }

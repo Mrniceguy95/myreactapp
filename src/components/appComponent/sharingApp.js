@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ClosingPrompt from '../closingPromptComponent/closingPromptComponent';
+import Posts from '../postsComponent/posts';
 import AppForm from '../formComponents/appFormComponent'
 import axios from 'axios';
 import List from 'list.js';
@@ -17,7 +17,7 @@ class SharingApp extends Component {
             lifters: []
         }
     }
-    
+
     componentDidMount() {
 
         axios.get(`https://acolame-d1d98.firebaseio.com/conductores.json`)
@@ -85,82 +85,7 @@ class SharingApp extends Component {
         });
     }
 
-    nullCheck(object) {
-        if ( object != null ) {
-            return Object.keys(object).map((user, i) => (
-
-                    <li key={i}>                            
-                        <ClosingPrompt uri={Object.keys(object)[i].toString()} />
-                        <div className="title-list"><h3 className="pname">{object[user].name}</h3><h2>{object[user].published}</h2></div>
-                        <p>Origen: <span className="origin">{object[user].origin}</span></p>
-                        <p>Destino: <span className="destination">{object[user].destination}</span></p>
-                        <p>Fecha de salida: <span className="date-month timestamp">{ this.getDepartureDate(object[user].date) }</span></p>
-                        <p>Hora de salida: <span>{ this.getDepartureTime(object[user].date) }</span></p> 
-                        <p>Asientos: <span>{object[user].seats}</span></p>  
-                        <p>Redes sociales: 
-
-                            <a href={object[user].whatsapp} target="_blank"><i className="fa fa-whatsapp" aria-hidden="true"></i></a>
-
-                            <a href={object[user].facebook} target="_blank"><i className="fa fa-facebook" aria-hidden="true"></i></a>
-                            
-                            </p>
-                        <p className="comment">{object[user].description}</p>                        
-                    </li>
-                ))
-        } else {}
-    }
-
-    getDepartureDate(date) {
-        var month="";
-        if(date.includes("Ene")){
-            month="01"
-        }
-        else if(date.includes("Feb")){
-            month="02"
-        }
-        else if(date.includes("Mar")){
-            month="03"                        
-        }
-        else if(date.includes("Abr")){
-            month="04"
-        }
-        else if(date.includes("May")){
-            month="05"
-        }
-        else if(date.includes("Jun")){
-            month="06"
-        }
-        else if(date.includes("Jul")){
-            month="07"
-        }
-        else if(date.includes("Ago")){
-            month="08"
-        }
-        else if(date.includes("Sep")){
-            month="09"
-        }
-        else if(date.includes("Oct")){
-            month="10"
-        }
-        else if(date.includes("Nov")){
-            month="11"
-        }
-        else if(date.includes("Dic")){
-            month="12"
-        }
-        var fechadesalida=date.substring(4, 6)+"-"+month+"-"+date.substring(9, 11);
-        return fechadesalida;
-    }
-
-    getDepartureTime(date) {
-        
-        var horadesalida=date.substring(12, 17)
-        return horadesalida;
-    }
-
     render () {
-        var drivers = this.state.drivers;
-        var lifters = this.state.lifters;
         return (
             <section className="app-section" id="app">
                 <div className="app-container">
@@ -172,7 +97,7 @@ class SharingApp extends Component {
                                     <input id="pname"  className="filter" type="text" placeholder="Nombre" />
                                     
                                     <i className="fa fa-refresh" aria-hidden="true" 
-                                    // onClick={Refresh}
+                                        onClick={this.props.update}
                                     ></i>
                             </form>
                             <p className="p2"><strong>Busca</strong> tu viaje compartido.</p>
@@ -180,7 +105,7 @@ class SharingApp extends Component {
                             
                             <p className="p1"><strong>Añade</strong> el viaje que quieres compartir</p>
                             <div className="form">
-                                <AppForm />
+                                <AppForm key={this.state.key} update={this.props.update}/>
                             </div>
                             <p className="p2"><strong>Añade</strong> el viaje que quieres compartir</p>
 
@@ -192,22 +117,9 @@ class SharingApp extends Component {
                         <button className="tab tb-passengers" id="btnpasajeros">Pasajeros</button>
                         <button id="sortbtn" className="tab tb-sortdate"><i className="fa fa-calendar" aria-hidden="true"></i><i className="fa fa-sort-desc" aria-hidden="true"></i></button>
                         <div className="sbar-wrapper" data-simplebar data-simplebar-auto-hide="false">
-                            <div  id="users">
-                                <span id="sort1" className="sort" role="button" data-sort="date-month">Ordenar por fecha de salida</span>
-                                <ul className="list list-drivers" id="posts-content">
-                                     {
-                                    this.nullCheck(drivers)
-                                    }  
-                                </ul>
-                            </div>
-                            <div id="users2" className="inactive">
-                                <span id="sort2" className="sort" role="button" data-sort="date-month">Ordenar por fecha de salida</span>
-                                <ul className="list list-passengers" id="users-content">
-                                    {
-                                    this.nullCheck(lifters)
-                                    }
-                                </ul>
-                            </div>
+                            
+                            <Posts drivers={this.state.drivers} lifters={this.state.lifters} />
+
                         </div>
                     </div>
 

@@ -1711,8 +1711,7 @@ body {
 
 }
 
-.filter,
-.sb-input {
+.rw-widget {
     width: 70%;
     margin-bottom: 12px;
     background: none;
@@ -1725,12 +1724,52 @@ body {
     box-shadow: 7px 7px 7px #dbdbdb, 
                 -7px -7px 7px #ffffff;
 }
+
+.rw-widget > * {
+    border-radius: 20px !important;
+}
+
+.rw-widget-picker {
+    height: unset !important;
+    
+}
+
+.rw-widget-input {
+    background: linear-gradient(145deg, #ffffff, #e6e6e6) !important;
+}
+
+.rw-input {
+    padding: 0 0 0 6px !important;
+    text-transform: capitalize;
+}
+
+.filter,
+.sb-input {
+    width: 70%;
+    overflow: hidden;
+    margin-bottom: 12px;
+    background: none;
+    font-size: 1em;
+    font-family: Proxima Nova;
+    color: #464646;
+    background: white;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    box-shadow: 7px 7px 7px #dbdbdb, 
+                -7px -7px 7px #ffffff;
+}
+
 .fa-calendar {
     margin: 0 5px;
 }
 
 input#password {
     max-width: 125px;
+    width: 47%;
+}
+
+#seats {
+    width: 47%;
 }
 
 .app-search input {
@@ -1776,7 +1815,7 @@ input#password {
     display: flex;
     display: -webkit-flex;
     display: -ms-flexbox;
-    flex-direction: column;
+    justify-content: space-between;
     margin-bottom: 5px;
 }
 
@@ -1827,7 +1866,6 @@ input#password {
     color: #fff;
     border: 2px solid #6c63ff;
 }
-
 
 @media screen and (max-width: 700px) {
     .app-container {

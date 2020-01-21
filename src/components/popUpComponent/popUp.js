@@ -7,27 +7,53 @@ class PopUpComponent extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <Popup 
-                    open={this.props.display} onClose={this.props.handler} 
-                modal>
-                    {close => (
-                        <div className="modal">
-                            <a className="close" 
-                                onClick={this.props.handler}
-                            >
-                            &times;
-                            </a>
-                            <div className="header"> acola.me </div>
-                            <div className="content center-content">
-                            {this.props.popUpMsg}
+        var shouldUpdate = this.props.shouldUpdate;
+        if (shouldUpdate) {
+            return (
+                <div>
+                    <Popup 
+                        open={this.props.display} onClose={this.props.update} 
+                    modal>
+                        {close => (
+                            <div className="modal">
+                                <a className="close" 
+                                    onClick={this.props.handler}
+                                >
+                                &times;
+                                </a>
+                                <div className="header"> acola.me </div>
+                                <div className="content center-content">
+                                {this.props.popUpMsg}
+                                </div>
                             </div>
-                        </div>
-                        )}
-                </Popup>
-            </div>
-        )
+                            )}
+                    </Popup>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <Popup 
+                        open={this.props.display} onClose={this.props.update} 
+                    modal>
+                        {close => (
+                            <div className="modal">
+                                <a className="close" 
+                                    onClick={this.props.handler}
+                                >
+                                &times;
+                                </a>
+                                <div className="header"> acola.me </div>
+                                <div className="content center-content">
+                                {this.props.popUpMsg}
+                                </div>
+                            </div>
+                            )}
+                    </Popup>
+                </div>
+            )
+        }
+        
     }
 }
 

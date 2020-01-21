@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import UpdateApp from '../updateFunctionComponents/updateApp'
 import 'react-widgets/dist/css/react-widgets.css';
 import Moment from 'moment'
 import momentLocalizer from 'react-widgets-moment';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import moment from 'moment';
+import Combobox from 'react-widgets/lib/Combobox'
 import PopUpComponent from '../popUpComponent/popUp'
 require("moment/min/locales.min");
 
 Moment.locale('es')
 momentLocalizer()
+
+let colors = ['Ambato', 'Arhidona', 'Atacames', 'Babahoyo', 'Baños', 'Coca', 'Cuenca', 'Durán', 'Esmeraldas', 'Guayaquil', 'Ibarra', 'Lago Agrio', 'Latacunga', 'Loja', 'Macas', 'Machala', 'Manabí', 'Manta', 'Nueva Loja', 'Otavalo', 'Portoviejo', 'Puyo', 'Quijos', 'Quito', 'Riobamba', 'Santa Elana', 'Santo Domingo', 'Shushufindi', 'Tena', 'Zamora'];
 
 class AppForm extends Component {
     constructor(props) {
@@ -26,7 +30,8 @@ class AppForm extends Component {
             date: new Date(),
             description: '',
             displayPopUp: false,
-            popUpMsg: ''
+            popUpMsg: '',
+            shouldUpdate: false
         };
         this.handlePopUp = this.handlePopUp.bind(this)
     }
@@ -83,8 +88,9 @@ class AppForm extends Component {
             console.log(this.state.displayPopUp)
             event.preventDefault();
             this.setState({
+                shouldUpdate: false,
                 displayPopUp: true,
-                popUpMsg: 'Seleccione su rol en el viaje (Conductor o Pasajero)'
+                popUpMsg: 'Seleccione su rol en el viaje (Conductor o Pasajero)',
             })
             return
             
@@ -95,14 +101,16 @@ class AppForm extends Component {
             .then(res => {
                 if (res.data === 'ok') {
                     this.setState({
+                        shouldUpdate: true,
                         displayPopUp: true,
-                        popUpMsg: 'Su post ha sido enviado con exito'
+                        popUpMsg: 'Su post ha sido enviado con exito',
                     })
                     console.log('right')
                 } else {
                     this.setState({
+                        shouldUpdate: false,
                         displayPopUp: true,
-                        popUpMsg: 'Por favor llene todos los datos y verifique que sean correctos'
+                        popUpMsg: 'Por favor llene todos los datos y verifique que sean correctos',
                     })
                     
                     console.log('wrong')
@@ -123,7 +131,10 @@ class AppForm extends Component {
         
         return (
             <form className="contact-form" id="posts-form" noValidate="novalidate" onSubmit={this.handleSubmit}>
-                <PopUpComponent handler={this.handlePopUp} display={this.state.displayPopUp} popUpMsg={this.state.popUpMsg}/>
+                <PopUpComponent 
+                update={UpdateApp} handler={this.handlePopUp} display={this.state.displayPopUp} popUpMsg={this.state.popUpMsg}
+                shouldUpdate={this.state.shouldUpdate}
+                />
                 <input className="sb-input" placeholder="Nombre Completo" id="name" 
                     value={this.state.name} onChange={this.handleName}
                 />
@@ -137,6 +148,8 @@ class AppForm extends Component {
                 </select>
 
                 <div className="travelselect">
+
+                <Combobox />
 
                 <select id ="origin-form" className="sb-input" size="1"
                     value={this.state.origin} onChange={this.handleOrigin}
@@ -220,19 +233,22 @@ class AppForm extends Component {
                 <input className="sb-input" id="fb" placeholder="Link de Facebook"
                     value={this.state.facebook} onChange={this.handleFacebook}
                 />                
-                <input className="sb-input"  placeholder="Asientos" id="seats"
-                    value={this.state.seats} onChange={this.handleSeats}
-                />                
+                                
                 <div className="centerdate">                
                 <input className="sb-input" id="password" type="text" placeholder="Clave"
                     value={this.state.password} onChange={this.handlePassword}
                 />
+                <input className="sb-input"  placeholder="Asientos" id="seats"
+                    value={this.state.seats} onChange={this.handleSeats}
+                />
+                </div>  
                 <DateTimePicker
+                    className="datetime"
+                    dropUp
                     value={this.state.date}
                     onChange={value => this.setState({ date: value })}
                     format='MMM D YYYY HH:mm'
-                />                           
-                </div>                   
+                />                   
                 <textarea className="sb-input" placeholder="Mensaje..." id="description"
                     value={this.state.description} onChange={this.handleDescription}
                     >

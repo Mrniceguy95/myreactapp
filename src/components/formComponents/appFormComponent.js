@@ -229,7 +229,7 @@ class AppForm extends Component {
                     value={this.state.date}
                     onChange={value => this.setState({ date: value })}
                     format='MMM D YYYY HH:mm'
-                    min
+                    min={new Date()}
                 />                   
                 <textarea className="sb-input" placeholder="Mensaje..." id="description"
                     value={this.state.description} onChange={this.handleDescription}

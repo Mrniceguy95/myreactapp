@@ -1622,7 +1622,6 @@ body {
 }
 
 .sbar-wrapper {
-    height: 500px;
     border-radius: 20px;
 }
 
@@ -1884,6 +1883,16 @@ input#password {
     .app-search .contact-form {
         display: flex !important;
     }
+    #handleform {
+        display: none;
+    }
+    .sbar-wrapper {
+        height: 500px !important;
+    }
+    #handleForm,
+    #handleForm2 {
+        display: none !important;
+    }
 }
 
 @media screen and (max-width: 1000px) {
@@ -1892,6 +1901,13 @@ input#password {
         -ms-flex-direction: column;
         height: 1000px;
         padding: 20px 20px;
+    }
+    #handleForm,
+    #handleForm2 {
+        display: unset;
+    }
+    .sbar-wrapper {
+        height: 650px;
     }
     .filter,
     .sb-input,
@@ -2836,7 +2852,7 @@ textarea.input {
   }
 
   .popup-content {
-      min-width: 250px;
+      width: 250px;
       border-radius: 20px;
   }
 

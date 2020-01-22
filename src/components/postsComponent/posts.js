@@ -94,7 +94,7 @@ getDepartureTime(date) {
     return (
       <div>
         <div  id="users" className={this.props.postactive ? "" : "inactive"}>
-            <span id="sort3" className="sort" role="button" data-sort="date-month">Ordenar por fecha de salida</span>
+            <span id="sort1" className="sort" role="button" data-sort="date-month">Ordenar por fecha de salida</span>
             <ul className="list list-drivers" id="posts-content">
                 {
                 this.nullCheck(this.props.drivers)

@@ -43,13 +43,23 @@ class SharingApp extends Component {
               $('#posts-form').css('display', 'flex')
               $('#handleForm').css('display', 'none')
               $('#handleForm2').css('display', 'unset')
+              $('.sbar-wrapper').css('height', '350px')
             }
         });
-          $('#handleForm2').click(function() {
-            if ($('#posts-form').css('display') == 'flex' ) {
-              $('#posts-form').css('display', 'none')
-              $('#handleForm').css('display', 'unset')
-              $('#handleForm2').css('display', 'none')
+        $('#handleForm2').click(function() {
+        if ($('#posts-form').css('display') == 'flex' ) {
+            $('#posts-form').css('display', 'none')
+            $('#handleForm').css('display', 'unset')
+            $('#handleForm2').css('display', 'none')
+            $('.sbar-wrapper').css('height', '650px')
+            }
+        });
+        //sort date btn 
+        $('#sortbtn').click(function(){
+            if ( $('.tb-drivers').hasClass('active') ) {
+            $('#sort1').click();
+            } else {
+            $('#sort2').click();
             }
         });
     }

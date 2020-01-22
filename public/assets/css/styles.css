@@ -2851,7 +2851,7 @@ textarea.input {
   }
 
   .popup-content {
-      max-width: 315px !important;
+      width: 300px !important;
       border-radius: 20px;
   }
 

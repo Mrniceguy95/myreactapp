@@ -900,6 +900,7 @@ body {
     display: none;
 }
 
+
 @media screen and (max-width: 850px) {
     #nav-icon3 {
         display: unset;
@@ -934,6 +935,55 @@ body {
 .main-nav ul li {
     padding: 5px 15px;
 }
+
+.sub-menu {
+    position: relative;
+    height: 100px;
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    align-items: center;
+}
+
+.sub-menu::after {
+    content: '\f0d7';
+    font-family: fontAwesome;
+    font-size: 1em;
+    color: rgb(128, 128, 128);
+    margin: 0 0 0 5px;
+}
+
+.sub-menu:hover::after,
+.sub-menu:hover > a {
+    color: #6c63ff;
+}
+
+.sub-menu:hover .sub-menu-items,
+.sub-menu-items:hover {
+    display: flex !important;
+}
+
+.sub-menu-items {
+    display: none !important;
+    position: absolute;
+    left: 0;
+    top: 70px;
+    color: #666;
+    height: unset !important;
+    align-items: unset !important;
+    background: whitesmoke;
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    flex-direction: column;
+    -ms-flex-direction: column;
+    width: 200px;
+}
+
+.sub-menu-items li {
+    padding: 10px 15px !important;
+}
+
 
 .hero {
     max-width: 1140px;
@@ -1033,7 +1083,7 @@ body {
         font-size: 2.3em;
     }
     .list p .fa {
-        font-size: 1.7em;
+        font-size: 1.7em !important;
     }
     .hero-text{
         width: 100%;
@@ -1673,13 +1723,15 @@ body {
 
 .root .fa-facebook {
     color: #3b5998;
-    font-size: 1.3em;
-    margin: 0 10px;
+    font-size: 1.5em;
+    margin: 5px 10px;
 }
 
 .fa-whatsapp {
-    font-size: 1.3em;
+    font-size: 1.5em !important;
     color: #25D366;
+    margin-left: 10px;
+    margin-top: 5px;
 }
 
 .tippy-popper {

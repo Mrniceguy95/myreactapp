@@ -1378,7 +1378,6 @@ body {
     border-radius: 20px;
     box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
     align-items: center;
-    justify-content: center;
     display: flex;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -1602,7 +1601,7 @@ body {
     width: 50%;
     margin-bottom: 5px;
     color: #6c63ff;
-    border-top: 1px solid black;
+    border-top: 1px solid rgba(0,0,0,0.2);
 }
 
 .app-posts ul li p span {
@@ -1764,7 +1763,6 @@ body {
 }
 
 input#password {
-    max-width: 125px;
     width: 47%;
 }
 
@@ -1811,7 +1809,8 @@ input#password {
     width: 70%;
 }
 
-.centerdate {
+.centerdate,
+.travelselect {
     display: flex;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -1819,7 +1818,8 @@ input#password {
     margin-bottom: 5px;
 }
 
-.travelselect select {
+#origin-form,
+#destination-form {
     width: 49%;
     color: black;
     font-family: Lato;
@@ -1845,7 +1845,9 @@ input#password {
 }
 
 .sort,
-#submit1 {
+#submit1,
+#handleForm2,
+#handleForm {
     font-size: 0.8em;
     background: transparent;
     padding: 5px 10px;
@@ -1857,7 +1859,9 @@ input#password {
 }
 
 .sort:hover,
-#submit1:hover {
+#submit1:hover,
+#handleForm2:hover,
+#handleForm:hover {
     font-size: 0.8em;
     background: #6c63ff;
     padding: 5px 10px;
@@ -1867,17 +1871,38 @@ input#password {
     border: 2px solid #6c63ff;
 }
 
-@media screen and (max-width: 700px) {
+#handleForm2 {
+    margin-left: 10px;
+}
+
+#handleForm {
+    margin: auto;
+    max-width: 100px;
+}
+
+@media screen and (min-width: 1001px) {
+    .app-search .contact-form {
+        display: flex !important;
+    }
+}
+
+@media screen and (max-width: 1000px) {
     .app-container {
         flex-direction: column;
         -ms-flex-direction: column;
-        height: 1200px;
+        height: 1000px;
         padding: 20px 20px;
     }
     .filter,
     .sb-input,
     .sb-input2 {
         padding: 2px 0;
+    }
+    .rw-widget {
+        width: 80%;
+    }
+    .app-search .contact-form {
+        display: none;
     }
     .app-search a {
         margin-bottom: 10px;
@@ -1898,6 +1923,12 @@ input#password {
     .app-posts {
         width: 100%;
     }
+    .formactive {
+        display: flex;
+    }
+    .pactive {
+        display: unset;
+    }
     .app-search {
         display: flex;
         display: -webkit-flex;
@@ -1908,6 +1939,7 @@ input#password {
         border-bottom: 1px solid #fff;
         box-shadow: 0px 3px 0px rgba(0,0,0,0.4);
         justify-content: center;
+        height: unset;
     }
     .p1 {
         display: none;
@@ -1930,6 +1962,9 @@ input#password {
         max-height: unset;
         padding: 40px 10px;
     }
+    .toadd {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 520px) {
@@ -1950,7 +1985,7 @@ input#password {
         height: 145px;
     }
     .app-container {
-        height: 1248px;
+        height: 1000px;
     }
 }
 
@@ -1977,9 +2012,6 @@ input#password {
     }
     .app-search {
         font-size: 0.9em;
-    }
-    .fa-refresh {
-        bottom: -15px;
     }
 }
 
@@ -2804,7 +2836,8 @@ textarea.input {
   }
 
   .popup-content {
-      max-width: 250px;
+      min-width: 250px;
+      border-radius: 20px;
   }
 
   .modal .button {

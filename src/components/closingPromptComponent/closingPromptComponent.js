@@ -58,44 +58,79 @@ class ClosingPrompt extends Component {
     PopUpContent(passok) {
         
         if ( passok == 'initial' ) {
-            return <div><div className="content">
-                    Ingresa la clave de tu post para eliminarlo.
-                        <InputPass uri={ this.props.uri } ref={ this.InputPass1 } />
-                    </div>
-                    <div className="actions">
-                    
-                    <button
-                        className="button"
-                        onClick={ this.toggleModal }
-                    >
-                        cerrar
-                    </button>
-                    <button
-                        className="button"
-                        onClick={() => {
-                            this.deletePost();
-                        }}
-                    >
-                        Enviar
-                    </button>
-                    </div>
-                    </div>
+            return <div><span className="exit" onClick={this.toggleModal}><i className="fa fa-times" aria-hidden="true"></i></span>
+                    <Popup open={this.state.open} onClose={this.setInitialModal} modal>
+                        {close => (
+                            <div className="modal">
+                                <a className="close" onClick={this.toggleModal}>
+                                &times;
+                                </a>
+                                <div className="header"> acola.me </div>
+                                <div><div className="content">
+                                    Ingresa la clave de tu post para eliminarlo.
+                                        <InputPass uri={ this.props.uri } ref={ this.InputPass1 } />
+                                    </div>
+                                    <div className="actions">
+                                    
+                                    <button
+                                        className="button"
+                                        onClick={ this.toggleModal }
+                                    >
+                                        cerrar
+                                    </button>
+                                    <button
+                                        className="button"
+                                        onClick={() => {
+                                            this.deletePost();
+                                        }}
+                                    >
+                                        Enviar
+                                    </button>
+                                    </div>
+                                    </div>  
+                            </div>
+                            )}
+                    </Popup></div>
         } else if ( passok == 'wrong' ) {
-            return <div>
-                    <div className="content center-content">
-                        Clave incorrecta
-                        </div>
-                        <div className="actions">
-                        </div>
-                    </div>
+            return <div><span className="exit" onClick={this.toggleModal}><i className="fa fa-times" aria-hidden="true"></i></span>
+                    <Popup open={this.state.open} onClose={this.setInitialModal} modal>
+                        {close => (
+                            <div className="modal">
+                                <a className="close" onClick={this.toggleModal}>
+                                &times;
+                                </a>
+                                <div className="header"> acola.me </div>
+                                <div>
+                                <div className="content center-content">
+                                    Clave incorrecta
+                                    </div>
+                                    <div className="actions">
+                                    </div>
+                                </div>
+                            </div>
+                            )}
+                    </Popup> </div>
         } else if ( passok == 'ok' ) {
             return <div>
-                    <div className="content center-content">
-                        Su post ha sido eliminado con éxito!
-                        </div>
-                        <div className="actions">
-                        
-                        </div>
+                    <span className="exit" onClick={this.toggleModal}><i className="fa fa-times" aria-hidden="true"></i></span>
+                    <Popup open={this.state.open} onClose={() => {this.props.update(); this.setInitialModal();}} modal>
+                        {close => (
+                            <div className="modal">
+                                <a className="close" onClick={this.toggleModal}>
+                                &times;
+                                </a>
+                                <div className="header"> acola.me </div>
+                                <div>
+                                <div className="content center-content">
+                                    Su post ha sido eliminado con éxito!
+                                    </div>
+                                    <div className="actions">
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                            )}
+                    </Popup>
                     </div>
         }
     }
@@ -104,19 +139,8 @@ class ClosingPrompt extends Component {
     render() {
         return (
             <div>
-                <span className="exit" onClick={this.toggleModal}><i className="fa fa-times" aria-hidden="true"></i></span>
-                <Popup open={this.state.open} onClose={this.setInitialModal} modal>
-                    {close => (
-                        <div className="modal">
-                            <a className="close" onClick={this.toggleModal}>
-                            &times;
-                            </a>
-                            <div className="header"> acola.me </div>
-                            { this.PopUpContent(this.state.passok) }
-                            
-                        </div>
-                        )}
-                </Popup>
+                
+                { this.PopUpContent(this.state.passok) }
             </div>
         )
     }

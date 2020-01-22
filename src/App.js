@@ -13,12 +13,7 @@ import SharingApp from './components/appComponent/sharingApp'
 class App extends Component {
   constructor(prop) {
     super(prop)
-    this.updateApp = this.updateApp.bind(this);
-  }
 
-  updateApp() {
-    console.log('updated')
-    this.forceUpdate()
   }
 
   render() {
@@ -29,10 +24,7 @@ class App extends Component {
 
           <Route exact path='/' component={HomePage} />
           
-          <Route exact path='/compartir' 
-            render={(prop) => <SharingApp {...prop} update={this.updateApp}/>}
-          />
-
+          <Route exact path='/compartir' component={SharingApp}/>
           <Footer />
         </div>
       </Router>

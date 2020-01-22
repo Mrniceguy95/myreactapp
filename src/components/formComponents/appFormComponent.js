@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, useCallback, useState } from 'react';
 import axios from 'axios';
-import UpdateApp from '../updateFunctionComponents/updateApp'
 import 'react-widgets/dist/css/react-widgets.css';
 import Moment from 'moment'
 import momentLocalizer from 'react-widgets-moment';
@@ -13,7 +12,7 @@ require("moment/min/locales.min");
 Moment.locale('es')
 momentLocalizer()
 
-let colors = ['Ambato', 'Arhidona', 'Atacames', 'Babahoyo', 'Baños', 'Coca', 'Cuenca', 'Durán', 'Esmeraldas', 'Guayaquil', 'Ibarra', 'Lago Agrio', 'Latacunga', 'Loja', 'Macas', 'Machala', 'Manabí', 'Manta', 'Nueva Loja', 'Otavalo', 'Portoviejo', 'Puyo', 'Quijos', 'Quito', 'Riobamba', 'Santa Elana', 'Santo Domingo', 'Shushufindi', 'Tena', 'Zamora'];
+let cities = ['Ambato', 'Archidona', 'Atacames', 'Babahoyo', 'Baños', 'Coca', 'Cuenca', 'Durán', 'Esmeraldas', 'Guayaquil', 'Ibarra', 'Lago Agrio', 'Latacunga', 'Loja', 'Macas', 'Machala', 'Manabí', 'Manta', 'Nueva Loja', 'Otavalo', 'Portoviejo', 'Puyo', 'Quijos', 'Quito', 'Riobamba', 'Santa Elana', 'Santo Domingo', 'Shushufindi', 'Tena', 'Zamora'];
 
 class AppForm extends Component {
     constructor(props) {
@@ -31,9 +30,14 @@ class AppForm extends Component {
             description: '',
             displayPopUp: false,
             popUpMsg: '',
-            shouldUpdate: false
-        };
+            shouldUpdate: false,
+            openOrigin: false,
+            openDestination: false
+        }
         this.handlePopUp = this.handlePopUp.bind(this)
+        this.handleOriginToggle = this.handleOriginToggle.bind(this)
+        this.handleDestinationToggle = this.handleDestinationToggle.bind(this)
+        this.resetForm = this.resetForm.bind(this)
     }
 
     handleName = (event) => {
@@ -41,9 +45,6 @@ class AppForm extends Component {
     }
     handleRide = (event) => {
         this.setState({ ride: event.target.value})
-    }
-    handleOrigin = (event) => {
-        this.setState({ origin: event.target.value})
     }
     handleDestination = (event) => {
         this.setState({ destination: event.target.value})
@@ -65,7 +66,10 @@ class AppForm extends Component {
     }
     handleSubmit = (event) => {
         const date = moment(this.state.date).format('MMM D YYYY HH:mm').split('.').join("");
-        const dateSend = date.charAt(0).toUpperCase() + date.slice(1);
+        var dateString = date.charAt(0).toUpperCase() + date.slice(1);
+        if ( dateString.length == 16 ) {
+            dateString = dateString.slice(0,4) + "0" + dateString.slice(4);
+        } else {}
         const rideType = this.state.ride;
         var urlpost = "";
         const submitData = {
@@ -76,8 +80,9 @@ class AppForm extends Component {
             facebook: this.state.facebook,
             seats: this.state.seats,
             password: this.state.password,
-            date: dateSend,
+            date: dateString,
             description: this.state.description
+            
         }
         
         if ( rideType === "Conductor" ) {
@@ -95,7 +100,6 @@ class AppForm extends Component {
             return
             
         }
-        console.log(submitData)
         event.preventDefault();
         axios.post(urlpost, submitData)
             .then(res => {
@@ -126,13 +130,35 @@ class AppForm extends Component {
         console.log(this.state.displayPopUp)
     }
 
+    handleOriginToggle() {
+        this.setState({openOrigin: !this.state.openOrigin})
+    }
+
+    handleDestinationToggle() {
+        this.setState({openDestination: !this.state.openDestination})
+    }
+
+    resetForm() {
+        this.setState({
+            name: '',
+            ride: '',
+            origin: '',
+            destination: '',
+            whatsapp: '',
+            facebook: '',
+            password: '',
+            seats: '',
+            date: new Date(),
+            description: ''
+        })
+    }
+
     render() {
-        
         
         return (
             <form className="contact-form" id="posts-form" noValidate="novalidate" onSubmit={this.handleSubmit}>
                 <PopUpComponent 
-                update={UpdateApp} handler={this.handlePopUp} display={this.state.displayPopUp} popUpMsg={this.state.popUpMsg}
+                update={this.resetForm} postreset={this.props.postreset} handler={this.handlePopUp} display={this.state.displayPopUp} popUpMsg={this.state.popUpMsg}
                 shouldUpdate={this.state.shouldUpdate}
                 />
                 <input className="sb-input" placeholder="Nombre Completo" id="name" 
@@ -149,83 +175,38 @@ class AppForm extends Component {
 
                 <div className="travelselect">
 
-                <Combobox />
+                <Combobox 
+                    data={cities}
+                    open={this.state.openOrigin}
+                    onToggle={this.handleOriginToggle}
+                    onClick= {this.handleOriginToggle}
+                    value= {this.state.origin}
+                    onChange={value => this.setState({origin: value})}
+                    caseSensitive={false}
+                    minLength={10}
+                    placeholder='Origen'
+                    filter='contains'
+                    containerClassName='sb-input select-input'  
+                    id='origin-form'
+                    dropUp
+                />
 
-                <select id ="origin-form" className="sb-input" size="1"
-                    value={this.state.origin} onChange={this.handleOrigin}
-                >
-
-                    <option value="origen">Origen</option> 
-
-                    <option value = "Ambato">Ambato</option>
-                    <option value = "Archidona">Archidona</option>
-                    <option value = "Atacames">Atacames</option>
-                    <option value = "Babahoyo">Babahoyo</option>
-                    <option value = "Baños">Baños</option>
-                    <option value = "Coca">Coca</option>
-                    <option value = "Cuenca">Cuenca</option>
-                    <option value = "Durán">Durán</option>
-                    <option value = "Esmeraldas">Esmeraldas</option>
-                    <option value = "Guayaquil">Guayaquil</option>
-                    <option value = "Ibarra">Ibarra</option>
-                    <option value = "Lago Agrio">Lago Agrio</option>
-                    <option value = "Latacunga">Latacunga</option>
-                    <option value = "Loja">Loja</option>                            
-                    <option value = "Macas">Macas</option>
-                    <option value = "Machala">Machala</option>
-                    <option value = "Manabí">Manabí</option>
-                    <option value = "Manta">Manta</option>
-                    <option value = "Nueva Loja">Nueva Loja</option>
-                    <option value = "Otavalo">Otavalo</option>
-                    <option value = "Portoviejo">Portoviejo</option>
-                    <option value = "Puyo">Puyo</option>
-                    <option value = "Quito">Quito</option>
-                    <option value = "Riobamba">Riobamba</option>
-                    <option value = "Santa Elena">Santa Elena</option>
-                    <option value = "Santo Domingo">Santo Domingo</option>
-                    <option value = "Shushufundi">Shushufundi</option>
-                    <option value = "Tena">Tena</option>
-                    <option value = "Zamora">Zamora</option>
-
-                </select>
-
-                <select className="sb-input" id ="destination-form" size="1"
-                    value={this.state.destination} onChange={this.handleDestination}
-                >
-
-                    <option value="destino">Destino</option> 
-
-                    <option value = "Ambato">Ambato</option>
-                    <option value = "Archidona">Archidona</option>
-                    <option value = "Atacames">Atacames</option>
-                    <option value = "Babahoyo">Babahoyo</option>
-                    <option value = "Baños">Baños</option>
-                    <option value = "Coca">Coca</option>
-                    <option value = "Cuenca">Cuenca</option>
-                    <option value = "Durán">Durán</option>
-                    <option value = "Esmeraldas">Esmeraldas</option>
-                    <option value = "Guayaquil">Guayaquil</option>
-                    <option value = "Ibarra">Ibarra</option>
-                    <option value = "Lago Agrio">Lago Agrio</option>
-                    <option value = "Latacunga">Latacunga</option>
-                    <option value = "Loja">Loja</option>
-                    <option value = "Macas">Macas</option>
-                    <option value = "Machala">Machala</option>
-                    <option value = "Manabí">Manabí</option>
-                    <option value = "Manta">Manta</option>
-                    <option value = "Nueva Loja">Nueva Loja</option>
-                    <option value = "Otavalo">Otavalo</option>
-                    <option value = "Portoviejo">Portoviejo</option>
-                    <option value = "Puyo">Puyo</option>
-                    <option value = "Quito">Quito</option>
-                    <option value = "Riobamba">Riobamba</option>
-                    <option value = "Santa Elena">Santa Elena</option>
-                    <option value = "Santo Domingo">Santo Domingo</option>
-                    <option value = "Shushufundi">Shushufundi</option>
-                    <option value = "Tena">Tena</option>
-                    <option value = "Zamora">Zamora</option>
-
-                </select>                    
+                <Combobox 
+                    data={cities}
+                    dropUp
+                    open={this.state.openDestination}
+                    onToggle={this.handleDestinationToggle}
+                    onClick= {this.handleDestinationToggle}
+                    value= {this.state.destination}
+                    onChange={value => this.setState({destination: value})}
+                    caseSensitive={false}
+                    minLength={3}
+                    placeholder='Destino'
+                    filter='contains'
+                    containerClassName='sb-input select-input'  
+                    id='destination-form'
+                />
+                      
                 </div>                
                 <input className="sb-input" type="tel" placeholder="Whatsapp" id="whatsapp"
                     value={this.state.whatsapp} onChange={this.handleWhatsapp}
@@ -248,6 +229,7 @@ class AppForm extends Component {
                     value={this.state.date}
                     onChange={value => this.setState({ date: value })}
                     format='MMM D YYYY HH:mm'
+                    min
                 />                   
                 <textarea className="sb-input" placeholder="Mensaje..." id="description"
                     value={this.state.description} onChange={this.handleDescription}
@@ -255,6 +237,7 @@ class AppForm extends Component {
                 </textarea>
                 <div className="btn1" style={{textAlign: 'center'}} >
                     <button value="Agregar Viaje" type="submit" id="submit1">Agregar Viaje</button>
+                    <a id="handleForm2">Ocultar</a>
                 </div>
             </form>
         )

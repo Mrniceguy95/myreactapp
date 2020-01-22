@@ -3,6 +3,7 @@ import Posts from '../postsComponent/posts';
 import AppForm from '../formComponents/appFormComponent'
 import axios from 'axios';
 import List from 'list.js';
+import Popup from "reactjs-popup";
 import $ from 'jquery';
 
 
@@ -14,8 +15,14 @@ class SharingApp extends Component {
         super(props);
         this.state = {
             drivers: [],
-            lifters: []
+            lifters: [],
+            spinning: false,
+            driversActive: true,
+            liftersActive: false
         }
+        this.Refetch = this.Refetch.bind(this)
+        this.handleDriversTab = this.handleDriversTab.bind(this)
+        this.handleLiftersTab = this.handleLiftersTab.bind(this)
     }
 
     componentDidMount() {
@@ -31,6 +38,41 @@ class SharingApp extends Component {
             const lifters = res.data;  
             this.setState({ lifters });
         })
+        $('#handleForm').click(function() {
+            if ($('#posts-form').css('display') == 'none' ) {
+              $('#posts-form').css('display', 'flex')
+              $('#handleForm').css('display', 'none')
+              $('#handleForm2').css('display', 'unset')
+            }
+        });
+          $('#handleForm2').click(function() {
+            if ($('#posts-form').css('display') == 'flex' ) {
+              $('#posts-form').css('display', 'none')
+              $('#handleForm').css('display', 'unset')
+              $('#handleForm2').css('display', 'none')
+            }
+        });
+    }
+
+    Refetch() {
+        this.handleSpin();
+        axios.get(`https://acolame-d1d98.firebaseio.com/conductores.json`)
+            .then(res => {
+                const drivers = res.data;
+                this.setState({ drivers});
+            })
+
+        axios.get(`https://acolame-d1d98.firebaseio.com/pasajeros.json`)
+        .then(res => {
+            const lifters = res.data;  
+            this.setState({ lifters });
+            setTimeout(() => {this.handleSpin()}, 1800)
+            
+        })
+    }
+
+    handleSpin() {
+        this.setState({ spinning: !this.state.spinning })
     }
 
     componentDidUpdate() {
@@ -85,6 +127,26 @@ class SharingApp extends Component {
         });
     }
 
+    handleDriversTab() {
+        if (!this.state.driversActive) {
+            this.setState({
+                driversActive: true,
+                liftersActive: false
+            })
+            this.Refetch();
+        }
+    }
+
+    handleLiftersTab() {
+        if (!this.state.liftersActive) {
+            this.setState({
+                driversActive: false,
+                liftersActive: true
+            })
+            this.Refetch();
+        }
+    }
+
     render () {
         return (
             <section className="app-section" id="app">
@@ -96,8 +158,8 @@ class SharingApp extends Component {
                                     <input id="destination"  className="filter" type="text" placeholder="Destino" />
                                     <input id="pname"  className="filter" type="text" placeholder="Nombre" />
                                     
-                                    <i className="fa fa-refresh" aria-hidden="true" 
-                                        onClick={this.props.update}
+                                    <i className={this.state.spinning ? 'fa fa-refresh fa-spin' : 'fa fa-refresh'} aria-hidden="true" 
+                                        onClick={this.Refetch}
                                     ></i>
                             </form>
                             <p className="p2"><strong>Busca</strong> tu viaje compartido.</p>
@@ -105,20 +167,22 @@ class SharingApp extends Component {
                             
                             <p className="p1"><strong>Añade</strong> el viaje que quieres compartir</p>
                             <div className="form">
-                                <AppForm key={this.state.key} update={this.props.update}/>
+                                    
+                                        <AppForm postreset={this.Refetch} />
                             </div>
-                            <p className="p2"><strong>Añade</strong> el viaje que quieres compartir</p>
+                            <p className="p2 toadd"><strong>Añade</strong> el viaje que quieres compartir</p>
+                            <button id="handleForm">Agregar viaje</button>
 
                     </div>
                     
                     <div className="app-posts">
                         <p className="p-lf">Estoy en busca de:</p>
-                        <button className="tab tb-drivers active" id="btnconductores">Conductores</button>
-                        <button className="tab tb-passengers" id="btnpasajeros">Pasajeros</button>
+                        <button className={this.state.driversActive ? "tab tb-drivers active" : "tab tb-drivers"} id="btnconductores" onClick={this.handleDriversTab}>Conductores</button>
+                        <button className={this.state.liftersActive ? "tab tb-passengers active" : "tab tb-passengers"} id="btnpasajeros" onClick={this.handleLiftersTab}>Pasajeros</button>
                         <button id="sortbtn" className="tab tb-sortdate"><i className="fa fa-calendar" aria-hidden="true"></i><i className="fa fa-sort-desc" aria-hidden="true"></i></button>
                         <div className="sbar-wrapper" data-simplebar data-simplebar-auto-hide="false">
-                            
-                            <Posts drivers={this.state.drivers} lifters={this.state.lifters} />
+
+                            <Posts postactive={this.state.driversActive} reset={this.Refetch} drivers={this.state.drivers} lifters={this.state.lifters} />
 
                         </div>
                     </div>

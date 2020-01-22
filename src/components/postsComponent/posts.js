@@ -6,7 +6,13 @@ import ClosingPrompt from '../closingPromptComponent/closingPromptComponent';
 class Posts extends Component {
   constructor(prop) {
     super(prop)
+    this.handlePosts = this.handlePosts.bind(this)
     
+  }
+
+  handlePosts = (event) => {
+      console.log('didnt work')
+      this.forceUpdate();
   }
 
   getDepartureDate(date) {
@@ -59,10 +65,11 @@ getDepartureTime(date) {
 
   nullCheck(object) {
     if ( object != null ) {
+
         return Object.keys(object).map((user, i) => (
 
             <li key={i}>                            
-                <ClosingPrompt uri={Object.keys(object)[i].toString()} update={this.props.update}/>
+                <ClosingPrompt uri={Object.keys(object)[i].toString()} update={this.props.reset}/>
                 <div className="title-list"><h3 className="pname">{object[user].name}</h3><h2>{object[user].published}</h2></div>
                 <p>Origen: <span className="origin">{object[user].origin}</span></p>
                 <p>Destino: <span className="destination">{object[user].destination}</span></p>
@@ -79,21 +86,22 @@ getDepartureTime(date) {
                 <p className="comment">{object[user].description}</p>                        
             </li>
             ))
+
     } else {}
 }
 
   render() {
     return (
       <div>
-        <div  id="users">
-            <span id="sort1" className="sort" role="button" data-sort="date-month">Ordenar por fecha de salida</span>
+        <div  id="users" className={this.props.postactive ? "" : "inactive"}>
+            <span id="sort3" className="sort" role="button" data-sort="date-month">Ordenar por fecha de salida</span>
             <ul className="list list-drivers" id="posts-content">
                 {
                 this.nullCheck(this.props.drivers)
                 }  
             </ul>
         </div>
-        <div id="users2" className="inactive">
+        <div id="users2" className={this.props.postactive ? "inactive" : ""}>
             <span id="sort2" className="sort" role="button" data-sort="date-month">Ordenar por fecha de salida</span>
             <ul className="list list-passengers" id="users-content">
                 {

@@ -12,12 +12,12 @@ class PopUpComponent extends Component {
             return (
                 <div>
                     <Popup 
-                        open={this.props.display} onClose={this.props.update} 
+                        open={this.props.display} onClose={() => { this.props.update(); this.props.postreset(); this.props.handler();}} 
                     modal>
                         {close => (
                             <div className="modal">
                                 <a className="close" 
-                                    onClick={this.props.handler}
+                                    onClick={this.props.update}
                                 >
                                 &times;
                                 </a>
@@ -34,7 +34,7 @@ class PopUpComponent extends Component {
             return (
                 <div>
                     <Popup 
-                        open={this.props.display} onClose={this.props.update} 
+                        open={this.props.display} onClose={this.props.handler} 
                     modal>
                         {close => (
                             <div className="modal">

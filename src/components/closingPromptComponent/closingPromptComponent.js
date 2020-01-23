@@ -33,26 +33,41 @@ class ClosingPrompt extends Component {
 
 
     deletePost() {
-        
         const postData = {
             uri : this.props.uri,
             key : this.InputPass1.current.state.inputValue.toString()
         }
-        if ( this.InputPass1.current.state.inputValue.toString() != '' ) {
-        axios.post(`https://zealous-snyder-fe1913.netlify.com/.netlify/functions/index/deleteConductores`, postData)
-            .then(res => {
-                if (res.data === 'ok') {
-                    const passok = 'ok'
-                    this.setState({passok})
-                } else {
-                    const passok = 'wrong'
-                    this.setState({passok})
-                    console.log('wrong')
-                }
-
-            })
-        } else {}
+        if ( this.props.type == 'drivers' ) {
+            if ( this.InputPass1.current.state.inputValue.toString() != '' ) {
+                axios.post(`https://zealous-snyder-fe1913.netlify.com/.netlify/functions/index/deleteConductores`, postData)
+                    .then(res => {
+                        if (res.data === 'ok') {
+                            const passok = 'ok'
+                            this.setState({passok})
+                        } else {
+                            const passok = 'wrong'
+                            this.setState({passok})
+                            console.log('wrong')
+                        }
         
+                    })
+            } else {}
+        } else if ( this.props.type == 'lifters' ) {
+            if ( this.InputPass1.current.state.inputValue.toString() != '' ) {
+                axios.post(`https://zealous-snyder-fe1913.netlify.com/.netlify/functions/index/deletePasajeros`, postData)
+                    .then(res => {
+                        if (res.data === 'ok') {
+                            const passok = 'ok'
+                            this.setState({passok})
+                        } else {
+                            const passok = 'wrong'
+                            this.setState({passok})
+                            console.log('wrong')
+                        }
+        
+                    })
+            } else {}
+        } else {}
     }
 
     PopUpContent(passok) {

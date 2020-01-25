@@ -3,8 +3,8 @@ import Posts from '../postsComponent/posts';
 import AppForm from '../formComponents/appFormComponent'
 import axios from 'axios';
 import List from 'list.js';
-import Popup from "reactjs-popup";
 import $ from 'jquery';
+import Popup from "reactjs-popup";
 
 
 //components
@@ -76,8 +76,7 @@ class SharingApp extends Component {
         .then(res => {
             const lifters = res.data;  
             this.setState({ lifters });
-            setTimeout(() => {this.handleSpin()}, 1800)
-            
+            setTimeout(() => {this.handleSpin()}, 1800);
         })
     }
 
@@ -189,7 +188,19 @@ class SharingApp extends Component {
                         <p className="p-lf">Estoy en busca de:</p>
                         <button className={this.state.driversActive ? "tab tb-drivers active" : "tab tb-drivers"} id="btnconductores" onClick={this.handleDriversTab}>Conductores</button>
                         <button className={this.state.liftersActive ? "tab tb-passengers active" : "tab tb-passengers"} id="btnpasajeros" onClick={this.handleLiftersTab}>Pasajeros</button>
-                        <button id="sortbtn" className="tab tb-sortdate"><i className="fa fa-calendar" aria-hidden="true"></i><i className="fa fa-sort-desc" aria-hidden="true"></i></button>
+                        
+                        <Popup
+                            trigger={<button id="sortbtn" className="tab tb-sortdate"><i className="fa fa-calendar" aria-hidden="true"></i><i className="fa fa-sort-desc" aria-hidden="true"></i></button>}
+                            position="top center"
+                            on="hover"
+                            >
+                            <div className="card">
+                                <div className="content tooltip-content">
+                                    Ordenar por fecha de salida
+                                </div>
+                            </div>
+                        </Popup>  
+
                         <div className="sbar-wrapper" data-simplebar data-simplebar-auto-hide="false">
 
                             <Posts postactive={this.state.driversActive} reset={this.Refetch} drivers={this.state.drivers} lifters={this.state.lifters} />

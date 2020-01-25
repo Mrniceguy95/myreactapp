@@ -146,7 +146,7 @@ class ClosingPrompt extends Component {
                             </div>
                             )}
                     </Popup>
-                    </div>
+                </div>
         }
     }
 

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {
-    BrowserRouter as Router,
-  Route,
-  Link} from 'react-router-dom';
+  Link
+} from 'react-router-dom';
 
 const imgPath = process.env.PUBLIC_URL + '/assets/images/';
 

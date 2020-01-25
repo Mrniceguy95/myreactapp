@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Route
@@ -10,13 +10,7 @@ import Footer from './components/footerComponent/footer'
 import HomePage from './components/pages/homePage'
 import SharingApp from './components/appComponent/sharingApp'
 
-class App extends Component {
-  constructor(prop) {
-    super(prop)
-
-  }
-
-  render() {
+function App () {
     return (
       <Router>
         <div className="root">
@@ -28,8 +22,7 @@ class App extends Component {
           <Footer />
         </div>
       </Router>
-    )
-  }  
+    );
 }
 
 export default App;

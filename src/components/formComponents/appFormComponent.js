@@ -1,4 +1,4 @@
-import React, { Component, useCallback, useState } from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import 'react-widgets/dist/css/react-widgets.css';
 import Moment from 'moment'
@@ -7,6 +7,7 @@ import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import moment from 'moment';
 import Combobox from 'react-widgets/lib/Combobox'
 import PopUpComponent from '../popUpComponent/popUp'
+import Popup from "reactjs-popup";
 require("moment/min/locales.min");
 
 Moment.locale('es')
@@ -207,18 +208,51 @@ class AppForm extends Component {
                     id='destination-form'
                 />
                       
-                </div>                
-                <input className="sb-input" type="tel" placeholder="Whatsapp" id="whatsapp"
+                </div>
+                <Popup
+                    trigger={<input className="sb-input" type="tel" placeholder="Whatsapp" id="whatsapp"
                     value={this.state.whatsapp} onChange={this.handleWhatsapp}
-                />                    
-                <input className="sb-input" id="fb" placeholder="Link de Facebook"
+                    /> }
+                    position="top center"
+                    on="hover"
+                    >
+                    <div className="card">
+                        <div className="content tootltip-content">
+                            Introduce tu número de whatsapp en el siguiente formato eg: 0996405212
+                        </div>
+                    </div>
+                </Popup>
+                
+                <Popup
+                    trigger={<input className="sb-input" id="fb" placeholder="Link de Facebook"
                     value={this.state.facebook} onChange={this.handleFacebook}
-                />                
+                    /> }
+                    position="top center"
+                    on="hover"
+                    >
+                    <div className="card">
+                        <div className="content tootltip-content">
+                            Verifica que el link sea correcto eg: https://www.facebook.com/julio.iglesias
+                        </div>
+                    </div>
+                </Popup>        
+                                   
+                             
                                 
                 <div className="centerdate">                
-                <input className="sb-input" id="password" type="text" placeholder="Clave"
+                <Popup
+                    trigger={<input className="sb-input" id="password" type="text" placeholder="Clave"
                     value={this.state.password} onChange={this.handlePassword}
-                />
+                    />}
+                    position="bottom center"
+                    on="hover"
+                    >
+                    <div className="card">
+                        <div className="content tootltip-content pass-tooltip">
+                            Esta clave te servirá si deseas eliminar tu post, por favor guárdala.
+                        </div>
+                    </div>
+                </Popup>   
                 <input className="sb-input"  placeholder="Asientos" id="seats"
                     value={this.state.seats} onChange={this.handleSeats}
                 />

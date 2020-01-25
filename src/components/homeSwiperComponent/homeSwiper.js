@@ -8,10 +8,10 @@ const imgPath = process.env.PUBLIC_URL + '/assets/images/'
 function HomeSwiper() {
     const params = {
         loop: true,
-          autoplay: {
-             delay: 2500,
-             disableOnInteraction: true,
-             },
+        //   autoplay: {
+        //      delay: 2500,
+        //      disableOnInteraction: true,
+        //      },
       
           // If we need pagination
           pagination: {
